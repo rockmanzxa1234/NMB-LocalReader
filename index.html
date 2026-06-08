@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子阅读器 - 登录</title>
+    <link rel="stylesheet" href="./server_portal.css">
+</head>
+<body>
+    <main class="portal-shell portal-shell-single">
+        <section class="auth-card">
+            <p class="portal-eyebrow">Thread Reader</p>
+            <h1>登录 / 注册</h1>
+            <p class="portal-intro">
+                先通过用户名和密码进入目录页，目录页再跳转到具体帖子阅读页。
+            </p>
+
+            <div class="portal-auth-toggle" role="tablist" aria-label="登录或注册">
+                <button type="button" class="portal-toggle-button is-active" data-auth-mode="login" aria-pressed="true">登录</button>
+                <button type="button" class="portal-toggle-button" data-auth-mode="register" aria-pressed="false">注册</button>
+            </div>
+
+            <form id="loginForm" class="portal-form">
+                <label class="portal-field">
+                    <span>用户名</span>
+                    <input id="usernameInput" type="text" autocomplete="username" required>
+                </label>
+
+                <label class="portal-field">
+                    <span>密码</span>
+                    <input id="passwordInput" type="password" autocomplete="current-password" required>
+                </label>
+
+                <button type="submit" class="portal-button">进入目录页</button>
+            </form>
+
+            <form id="registerForm" class="portal-form portal-hidden">
+                <label class="portal-field">
+                    <span>用户名</span>
+                    <input id="registerUsernameInput" type="text" autocomplete="username" required>
+                </label>
+
+                <label class="portal-field">
+                    <span>密码</span>
+                    <input id="registerPasswordInput" type="password" autocomplete="new-password" required>
+                </label>
+
+                <label class="portal-field">
+                    <span>确认密码</span>
+                    <input id="registerPasswordConfirmInput" type="password" autocomplete="new-password" required>
+                </label>
+
+                <label class="portal-field">
+                    <span>邀请码</span>
+                    <input id="registerInviteCodeInput" type="password" autocomplete="off" required>
+                </label>
+
+                <button type="submit" class="portal-button">注册并进入目录页</button>
+            </form>
+
+            <p id="authMessage" class="portal-message" aria-live="polite"></p>
+            <p class="portal-muted">注册需要填写邀请码。</p>
+        </section>
+    </main>
+
+    <script src="./server_auth.js"></script>
+    <script src="./server_login.js"></script>
+</body>
+</html>

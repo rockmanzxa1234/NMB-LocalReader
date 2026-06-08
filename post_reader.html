@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子阅读器</title>
+    <link rel="stylesheet" href="./post_reader.css">
+</head>
+<body>
+    <div class="app-shell">
+        <aside class="control-panel">
+            <div class="brand-block">
+                <p class="eyebrow">Local Thread Reader</p>
+                <h1>帖子阅读器</h1>
+                <p class="intro">
+                    推荐读取合并后的 <code>.json</code>。如需显示本地下载图片，再选择对应帖子目录作为图片文件夹。
+                </p>
+            </div>
+
+            <section class="panel-card">
+                <h2>加载数据</h2>
+                <label class="field">
+                    <span>数据文件</span>
+                    <input id="dataFileInput" type="file" accept=".json,.md">
+                </label>
+                <div class="field">
+                    <span>图片目录</span>
+                    <div class="image-source-actions">
+                        <button id="pickImageDirectoryButton" type="button">按路径选择目录</button>
+                        <label class="inline-file-button">
+                            <span>兼容模式导入目录</span>
+                            <input id="imageFolderInput" type="file" webkitdirectory multiple>
+                        </label>
+                    </div>
+                    <p id="imageModeSummary" class="muted">未选择图片目录</p>
+                </div>
+                <p id="sourceSummary" class="muted">未加载数据</p>
+            </section>
+
+            <section class="panel-card">
+                <h2>筛选与分页</h2>
+                <label class="field">
+                    <span>配色方案</span>
+                    <select id="themeSelect">
+                        <option value="day">日间</option>
+                        <option value="dusk">晚间</option>
+                        <option value="night">夜间</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>user_id 筛选</span>
+                    <input id="userFilterInput" type="text" placeholder="多个 ID 用逗号、空格或换行分隔">
+                </label>
+                <label class="field">
+                    <span>PO 筛选</span>
+                    <select id="poFilterSelect">
+                        <option value="all">全部</option>
+                        <option value="po">只看 PO</option>
+                        <option value="non-po">排除 PO</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>筛选范围</span>
+                    <select id="filterScopeSelect">
+                        <option value="all">全文件筛选</option>
+                        <option value="page">仅当前页筛选</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>切换筛选时</span>
+                    <select id="filterChangeBehaviorSelect">
+                        <option value="keep-page">保留当前页</option>
+                        <option value="first-page">强制回第一页</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>修改每页条数时</span>
+                    <select id="pageSizeBehaviorSelect">
+                        <option value="keep-first-item">保留当前页第一条</option>
+                        <option value="first-page">强制回第一页</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>每页条数</span>
+                    <select id="pageSizeSelect">
+                        <option value="10">10</option>
+                        <option value="20" selected>20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </label>
+                <button id="resetFiltersButton" class="ghost-button" type="button">重置筛选</button>
+            </section>
+
+            <section class="panel-card">
+                <h2>页面跳转</h2>
+                <div class="jump-row">
+                    <input id="jumpPageInput" type="number" min="1" placeholder="页码">
+                    <button id="jumpPageButton" type="button">跳转</button>
+                </div>
+                <p id="statsLine" class="muted">0 条</p>
+            </section>
+        </aside>
+
+        <main class="content-area">
+            <header class="toolbar">
+                <div class="toolbar-left">
+                    <button id="prevPageButton" type="button">上一页</button>
+                    <button id="nextPageButton" type="button">下一页</button>
+                </div>
+                <div class="toolbar-center">
+                    <strong id="pageInfo">第 0 / 0 页</strong>
+                </div>
+                <div class="toolbar-right">
+                    <span id="renderHint" class="muted">加载文件后开始阅读</span>
+                </div>
+            </header>
+
+            <section id="emptyState" class="empty-state">
+                <h2>等待载入</h2>
+                <p>先选择一个合并后的 JSON，或者一个导出的 Markdown 文件。</p>
+            </section>
+
+            <section id="postList" class="post-list" hidden></section>
+        </main>
+    </div>
+
+    <script src="./post_reader.js"></script>
+</body>
+</html>

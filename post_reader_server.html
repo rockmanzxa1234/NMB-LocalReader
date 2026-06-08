@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子阅读器 - 阅读页</title>
+    <link rel="stylesheet" href="./post_reader_server.css">
+</head>
+<body>
+    <div class="app-shell">
+        <div id="sidebarBackdrop" class="sidebar-backdrop" hidden></div>
+
+        <aside id="sidebarPanel" class="control-panel">
+            <div class="brand-block">
+                <p class="eyebrow">Thread Reader</p>
+                <h1 id="threadTitle">阅读页</h1>
+                <p class="intro">
+                    当前页面会根据地址中的 <code>folder</code> 参数，
+                    通过后端接口按需读取帖子内容和图片。
+                </p>
+                <div class="brand-actions">
+                    <a class="ghost-link" href="./server_home.html">返回目录页</a>
+                    <button id="logoutButton" type="button" class="ghost-button">退出登录</button>
+                </div>
+            </div>
+
+            <section class="panel-card">
+                <h2>当前数据</h2>
+                <p id="threadFolder" class="muted">文件夹：未指定</p>
+                <p id="sourceSummary" class="muted">尚未加载数据</p>
+                <p id="imageModeSummary" class="muted">图片将通过后端按需读取</p>
+                <button id="toggleReadButton" class="ghost-button" type="button">标记为已阅读</button>
+            </section>
+
+            <section class="panel-card">
+                <h2>当前 Thread 书签</h2>
+                <p id="bookmarkSummary" class="muted">暂无书签</p>
+                <div id="bookmarkList" class="bookmark-list"></div>
+            </section>
+
+            <section class="panel-card">
+                <h2>筛选与分页</h2>
+                <label class="field">
+                    <span>配色方案</span>
+                    <select id="themeSelect">
+                        <option value="day">日间</option>
+                        <option value="dusk">间色</option>
+                        <option value="night">夜间</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>user_id 筛选</span>
+                    <input id="userFilterInput" type="text" placeholder="多个 ID 用逗号、空格或换行分隔">
+                </label>
+                <label class="field">
+                    <span>PO 筛选</span>
+                    <select id="poFilterSelect">
+                        <option value="all">全部</option>
+                        <option value="po">只看 PO</option>
+                        <option value="non-po">排除 PO</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>筛选范围</span>
+                    <select id="filterScopeSelect">
+                        <option value="all">整个文件</option>
+                        <option value="page">仅当前页</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>切换筛选时</span>
+                    <select id="filterChangeBehaviorSelect">
+                        <option value="keep-page">保留当前页</option>
+                        <option value="first-page">强制回第一页</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>修改每页条数时</span>
+                    <select id="pageSizeBehaviorSelect">
+                        <option value="keep-first-item">保留当前页第一条</option>
+                        <option value="first-page">强制回第一页</option>
+                    </select>
+                </label>
+                <label class="field">
+                    <span>每页条数</span>
+                    <select id="pageSizeSelect">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                </label>
+                <button id="resetFiltersButton" class="ghost-button" type="button">重置筛选</button>
+            </section>
+
+            <section class="panel-card">
+                <h2>页面跳转</h2>
+                <div class="jump-row">
+                    <input id="jumpPageInput" type="number" min="1" placeholder="页码">
+                    <button id="jumpPageButton" type="button">跳转</button>
+                </div>
+                <p id="statsLine" class="muted">0 条</p>
+            </section>
+        </aside>
+
+        <main class="content-area">
+            <header class="toolbar">
+                <div class="toolbar-desktop">
+                    <div class="toolbar-left">
+                        <label class="toolbar-page-size">
+                            <span>每页</span>
+                            <select id="toolbarPageSizeSelect">
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </label>
+                        <button id="prevPageButton" type="button">上一页</button>
+                    </div>
+                    <div class="toolbar-center">
+                        <strong id="pageInfo">第 0 / 0 页</strong>
+                    </div>
+                    <div class="toolbar-right">
+                        <div class="toolbar-jump-row">
+                            <input id="toolbarJumpPageInput" type="number" min="1" placeholder="页码">
+                            <button id="toolbarJumpPageButton" type="button">跳转</button>
+                        </div>
+                        <button id="nextPageButton" type="button">下一页</button>
+                        <span id="renderHint" class="muted">正在准备阅读页</span>
+                    </div>
+                </div>
+
+                <div id="mobileReaderFloat" class="mobile-float-shell">
+                    <div class="mobile-float-main">
+                        <button id="mobilePrevPageButton" type="button" class="mobile-float-nav">&lt;</button>
+                        <strong id="mobilePageInfo" class="mobile-float-page">第 0 / 0 页</strong>
+                        <button id="mobileNextPageButton" type="button" class="mobile-float-nav">&gt;</button>
+                        <button
+                            id="mobileReaderMenuButton"
+                            type="button"
+                            class="mobile-float-menu-button"
+                            aria-expanded="false"
+                            aria-controls="mobileReaderPanel"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                    <div id="mobileReaderPanel" class="mobile-float-panel" hidden>
+                        <div class="toolbar-jump-row mobile-float-jump-row">
+                            <input id="mobileJumpPageInput" type="number" min="1" placeholder="页码">
+                            <button id="mobileJumpPageButton" type="button">跳转</button>
+                        </div>
+                        <button id="mobileSidebarOpenButton" type="button" class="ghost-button mobile-float-side-button">打开侧栏</button>
+                        <p id="mobileRenderHint" class="muted mobile-float-hint">正在准备阅读页</p>
+                    </div>
+                </div>
+            </header>
+
+            <section id="emptyState" class="empty-state">
+                <h2>等待加载</h2>
+                <p>请从目录页进入，或者在地址栏附带 <code>?folder=帖子文件夹名</code>。</p>
+            </section>
+
+            <section id="postList" class="post-list" hidden></section>
+        </main>
+    </div>
+
+    <script src="./server_auth.js"></script>
+    <script src="./post_reader_server.js"></script>
+</body>
+</html>

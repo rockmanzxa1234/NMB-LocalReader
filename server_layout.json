@@ -1,0 +1,58 @@
+{
+  "description": "Current assumed server-side folder layout for the thread reader project. Edit this file to match the real deployment structure before we wire code paths to it.",
+  "server_root": "/opt/thread-reader",
+  "static_root": ".",
+  "users_file": "./auth_users.json",
+  "backend_entry": "./thread_reader_server.py",
+  "frontend_files": [
+    "./index.html",
+    "./server_home.html",
+    "./post_reader_server.html",
+    "./server_portal.css",
+    "./server_auth.js",
+    "./server_login.js",
+    "./server_home.js",
+    "./post_reader_server.css",
+    "./post_reader_server.js"
+  ],
+  "data_root": "./data",
+  "global_data_files": {
+    "index_file": "index.json",
+    "post_index_file": "post_index.json",
+    "posts_db_file": "posts.db",
+    "images_dir": "images"
+  },
+  "thread_folder_layout": {
+    "folder_name": "<thread-folder>",
+    "info_file": "info.json",
+    "thread_manifest_file": "thread.json",
+    "meta_dir": "meta",
+    "meta_file_pattern": "*.json"
+  },
+  "current_expected_structure": [
+    "/opt/thread-reader/",
+    "/opt/thread-reader/index.html",
+    "/opt/thread-reader/server_home.html",
+    "/opt/thread-reader/post_reader_server.html",
+    "/opt/thread-reader/thread_reader_server.py",
+    "/opt/thread-reader/auth_users.json",
+    "/opt/thread-reader/data/",
+    "/opt/thread-reader/data/index.json",
+    "/opt/thread-reader/data/post_index.json",
+    "/opt/thread-reader/data/posts.db",
+    "/opt/thread-reader/data/images/",
+    "/opt/thread-reader/data/images/<post_no>.<ext>",
+    "/opt/thread-reader/data/<thread-folder>/",
+    "/opt/thread-reader/data/<thread-folder>/info.json",
+    "/opt/thread-reader/data/<thread-folder>/thread.json",
+    "/opt/thread-reader/data/<thread-folder>/meta/",
+    "/opt/thread-reader/data/<thread-folder>/meta/0001.json"
+  ],
+  "notes": [
+    "Current backend code assumes static files and thread_reader_server.py are in the same directory.",
+    "Current backend code assumes auth_users.json is in the same directory as thread_reader_server.py.",
+    "Current backend code assumes the unified SQLite database is under data/posts.db.",
+    "Current backend code assumes the unified image directory is under data/images/.",
+    "Current backend code assumes each thread folder lives directly under data/."
+  ]
+}

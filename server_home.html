@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>帖子阅读器 - 目录</title>
+    <link rel="stylesheet" href="./server_portal.css">
+</head>
+<body>
+    <main class="portal-shell">
+        <div id="portalSidebarBackdrop" class="portal-sidebar-backdrop" hidden></div>
+
+        <aside id="portalSidebar" class="portal-sidebar">
+            <section class="portal-card">
+                <p class="portal-eyebrow">Thread Reader</p>
+                <h1>目录页</h1>
+                <p class="portal-intro">这里通过后端接口读取受保护的目录索引，再统一展示帖子目录。</p>
+                <div class="portal-actions">
+                    <span id="sessionUser" class="portal-badge">未登录</span>
+                    <button id="logoutButton" type="button" class="portal-button portal-button-soft">退出登录</button>
+                </div>
+            </section>
+
+            <section class="portal-card">
+                <h2>检索与排序</h2>
+                <label class="portal-field">
+                    <span>综合检索</span>
+                    <input id="keywordInput" type="text" placeholder="标题、文件夹、标签、系列、类型、PO ID">
+                </label>
+                <label class="portal-field">
+                    <span>作者</span>
+                    <input id="authorInput" type="text" placeholder="user_id / PO">
+                </label>
+                <label class="portal-field">
+                    <span>系列</span>
+                    <input id="seriesInput" type="text" placeholder="输入系列名">
+                </label>
+                <label class="portal-field">
+                    <span>现有系列</span>
+                    <select id="seriesSelect">
+                        <option value="">全部</option>
+                    </select>
+                </label>
+                <label class="portal-field">
+                    <span>类型</span>
+                    <input id="genreInput" type="text" placeholder="输入类型名">
+                </label>
+                <label class="portal-field">
+                    <span>现有类型</span>
+                    <select id="genreSelect">
+                        <option value="">全部</option>
+                    </select>
+                </label>
+                <label class="portal-field">
+                    <span>状态</span>
+                    <select id="statusFilterSelect">
+                        <option value="">全部</option>
+                    </select>
+                </label>
+                <label class="portal-field">
+                    <span>排序方式</span>
+                    <select id="sortSelect">
+                        <option value="updated-desc">最近更新</option>
+                        <option value="updated-asc">最早更新</option>
+                        <option value="post-desc">帖子数从多到少</option>
+                        <option value="image-desc">图片数从多到少</option>
+                        <option value="title-asc">标题 A-Z</option>
+                        <option value="title-desc">标题 Z-A</option>
+                    </select>
+                </label>
+                <label class="portal-field">
+                    <span>配色方案</span>
+                    <select id="themeSelect">
+                        <option value="day">日间</option>
+                        <option value="dusk">间夜</option>
+                        <option value="night">夜间</option>
+                    </select>
+                </label>
+                <button id="resetFiltersButton" type="button" class="portal-button portal-button-soft">重置</button>
+            </section>
+        </aside>
+
+        <section class="portal-main">
+            <header class="portal-toolbar">
+                <div>
+                    <h2>总体列表</h2>
+                    <p id="summaryLine" class="portal-muted">正在读取目录...</p>
+                </div>
+            </header>
+
+            <div class="portal-floating-controls">
+                <div class="portal-pager portal-pager-desktop">
+                    <label class="portal-page-size">
+                        <span>每页</span>
+                        <input id="pageSizeInput" type="number" min="1" step="1" value="10">
+                    </label>
+                    <button id="prevPageButton" type="button" class="portal-button portal-button-soft">上一页</button>
+                    <strong id="pageInfo">第 0 / 0 页</strong>
+                    <div class="portal-jump-row">
+                        <input id="jumpPageInput" type="number" min="1" step="1" placeholder="页码">
+                        <button id="jumpPageButton" type="button" class="portal-button portal-button-soft">跳转</button>
+                    </div>
+                    <button id="nextPageButton" type="button" class="portal-button portal-button-soft">下一页</button>
+                </div>
+
+                <div id="mobileHomeFloat" class="portal-mobile-float-shell">
+                    <div class="portal-mobile-float-main">
+                        <button id="mobilePrevPageButton" type="button" class="portal-mobile-float-nav">&lt;</button>
+                        <strong id="mobilePageInfo" class="portal-mobile-float-page">第 0 / 0 页</strong>
+                        <button id="mobileNextPageButton" type="button" class="portal-mobile-float-nav">&gt;</button>
+                        <button
+                            id="mobileHomeMenuButton"
+                            type="button"
+                            class="portal-mobile-menu-button"
+                            aria-expanded="false"
+                            aria-controls="mobileHomePanel"
+                        >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                    <div id="mobileHomePanel" class="portal-mobile-float-panel" hidden>
+                        <label class="portal-page-size portal-mobile-page-size">
+                            <span>每页</span>
+                            <input id="mobilePageSizeInput" type="number" min="1" step="1" value="10">
+                        </label>
+                        <div class="portal-jump-row portal-mobile-jump-row">
+                            <input id="mobileJumpPageInput" type="number" min="1" step="1" placeholder="页码">
+                            <button id="mobileJumpPageButton" type="button" class="portal-button portal-button-soft">跳转</button>
+                        </div>
+                        <button id="portalSidebarToggleButton" type="button" class="portal-button portal-button-soft portal-mobile-side-button">打开侧栏</button>
+                    </div>
+                </div>
+            </div>
+
+            <section id="emptyState" class="portal-card portal-empty" hidden>
+                <h3>暂无结果</h3>
+                <p id="emptyMessage">可以换个检索条件试试。</p>
+            </section>
+
+            <section id="catalogList" class="catalog-grid"></section>
+        </section>
+    </main>
+
+    <script src="./server_auth.js"></script>
+    <script src="./server_home.js"></script>
+</body>
+</html>
