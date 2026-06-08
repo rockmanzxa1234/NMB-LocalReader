@@ -15,13 +15,13 @@ CONCATE_PENDING_FILENAME = "concate_pending.json"
 STORAGE_STATE_PATH = ROOT / "nmb_storage_state.json"
 MANUAL_COOKIE_STRING = ""
 
-THREAD_URL = "https://www.nmbxd1.com/t/65648500"
-THREAD_TITLE = "欢迎你来到404学院-新"
+THREAD_URL = "https://www.nmbxd1.com/t/xxxx"
+THREAD_TITLE = ""
 TAGS = []
 SERIES = "其他"
 INSTALLMENT = None
-GENRE = "跑团"
-STATUS = "痛"
+GENRE = ""
+STATUS = ""
 
 HEADERS = {
     "cookie": "",
