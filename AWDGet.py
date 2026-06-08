@@ -25,13 +25,13 @@ THREAD_META_FILENAME = "thread_meta.json"
 CONCATE_PENDING_FILENAME = "concate_pending.json"
 STORAGE_STATE_PATH = ROOT / "awd_storage_state.json"
 
-THREAD_URL = "https://aweidao1.com/t/50163897"
-THREAD_TITLE = "城一高学生须知-另一版"
+THREAD_URL = "https://aweidao1.com/t/xxxx"
+THREAD_TITLE = ""
 TAGS = []
-SERIES = "其他"
+SERIES = ""
 INSTALLMENT = None
-GENRE = "规则怪谈"
-STATUS = "完结"
+GENRE = ""
+STATUS = ""
 
 BROWSER_MODE = "edge"
 WAIT_MS = 1500
